@@ -1,5 +1,8 @@
 Push-Location $PROFILE\..
-$script:installDir = Get-Location
+$script:installDir 		  = Get-Location
+$script:poshGitDir 		  = "$installDir\Posh-Git"
+$script:copyDir    		  = "$installDir\Workspace scripts"
+$script:configurationFile = "configuration.ps1" 
 Pop-Location
 
 #Begining installation
@@ -18,7 +21,7 @@ Write-Host "Posh-Git downloaded."
 #Installing Posh-Git (it creates also Powershell profile)
 Write-Host
 Write-Host "Installing Posh-Git..."
-Push-Location $installDir\Posh-Git
+Push-Location $poshGitDir
 .\install.ps1
 Pop-Location
 Write-Host "Posh-Git installed."
@@ -26,11 +29,16 @@ Write-Host "Posh-Git installed."
 #Copying files
 Write-Host
 Write-Host "Copying files..."
-if (!(Test-Path $installDir\"Workspace scripts"))
+if (!(Test-Path $copyDir))
 {
-	New-Item -Type Directory $installDir\"Workspace scripts" > $null
+	New-Item -Type Directory $copyDir > $null
 }
-Copy-Item * $installDir\"Workspace scripts"
+if (!(Test-Path $copyDir\$configurationFile)) {
+	Copy-Item * $copyDir
+}
+else {
+	Copy-Item * $copyDir -Exclude $configurationFile
+}
 Write-Host "Files copied."
 
 #Configuring Powershell profile
