@@ -38,7 +38,7 @@ function Submit-Feature {
 	git push origin master
 }
 
-function Sync-Feature {
+function Update-Feature {
 	$currentBranch = Get-CurrentBranch
 	
 	git checkout master
