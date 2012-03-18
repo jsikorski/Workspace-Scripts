@@ -15,12 +15,8 @@ function Get-CurrentBranch {
 }
 
 ##### Public #####
-function Get-Repositories {
-	Set-Location $repositoriesPath
-}
-
 function Start-Feature($featureName) {
-	if (Is-StringEmpty($featureName))
+	if (!$featureName)
 	{
 		Write-Host "Please type feature name."
 		return

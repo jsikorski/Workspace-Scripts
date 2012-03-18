@@ -45,6 +45,9 @@ else {
 
 # Load workspace scripts
 $loadLine
+
+# Start Pageant
+Start-Pageant
 "@ | Out-File $PROFILE -Append -Encoding utf8
 }
 

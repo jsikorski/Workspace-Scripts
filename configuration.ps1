@@ -1,2 +1,3 @@
-$projectsDirPath = "E:\Dane\Jakub\Moje dokumenty\Visual Studio 2010\Projects"
-$repositoriesDirPath = "E:\Dane\Jakub\Dropbox\Dodatkowe\GIT\Repositories"
+$projectsDirPath 	= #Enter projects path here
+$pageantPath 	 	= #Enter Pageant path here
+$pageantKeysDirPath = #Enter Pageant keys directory path here
