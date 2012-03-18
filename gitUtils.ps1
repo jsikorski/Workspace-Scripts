@@ -49,6 +49,7 @@ function Update-Feature {
 
 function Move-Changes($newBranchName) {
 	git stash
+	git branch $newBranchName
 	git checkout $newBranchName
 	git stash pop
 }
