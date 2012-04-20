@@ -1,3 +1,5 @@
+. .\scriptsUtils.ps1
+
 $script:powerShellDir     	  = Split-Path $PROFILE
 $script:installDir 		  	  = "$powerShellDir\Workspace scripts"
 $script:poshGitDir 		  	  = "$installDir\Posh-Git"
@@ -6,7 +8,7 @@ $script:configurationFilePath = "$installDir\$configurationFile"
 
 function script:Invoke-ErrorCheck($errorMessage) {
 	if (!$?) {
-		Write-Error ($errorMessage + " Installation aborted.")
+		Write-ErrorMessage ($errorMessage + " Installation aborted.")
 		if (Test-Path $installDir) {
 			Remove-Item -Recurse -Force $installDir
 		}
