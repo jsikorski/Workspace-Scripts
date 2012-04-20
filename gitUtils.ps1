@@ -117,9 +117,9 @@ function Move-Changes {
 	
 	Write-Info "Applying changes to target branch..."
 	git stash pop
-	Invoke-ErrorCheck "Cannot apply changes to target branch."
+	Invoke-ErrorCheck "Cannot apply changes to target branch or there are some confilcts to resolve."
 
-	Write-Info "Changes moved to $NewBranchName branch or there are some confilcts to resolve."
+	Write-Info "Changes moved to $NewBranchName branch."
 }
 
 function Remove-Branch {
