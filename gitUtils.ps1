@@ -80,11 +80,9 @@ function Submit-Feature {
 	)
 
 	if ($Continue) {
-		Write-Info "Continuing updating feature..."
 		Update-Feature -Continue
 	}
 	else {
-		Write-Info "Updating feature..."
 		Update-Feature
 	}
 	
