@@ -58,9 +58,9 @@ function Update-Feature {
 	else {
 		$currentBranch = Get-CurrentBranch
 	
-		Write-Info "Pulling changes from origin..."
+		Write-Info "Pulling changes from origin to master branch..."
 		git checkout master
-		Invoke-ErrorCheck "Cannot checkout branch to master."
+		Invoke-ErrorCheck "Cannot switch branch to master."
 		git pull origin master
 		Invoke-ErrorCheck "Cannot pull changes from origin."
 
@@ -85,6 +85,8 @@ function Submit-Feature {
 	else {
 		Update-Feature
 	}
+	
+	Write-Host
 	
 	Write-Info "Merging master and feature branches..."
 	git checkout master
