@@ -1,3 +1,3 @@
-$projectsDirPath 	= #Enter projects path here
-$pageantPath 	 	= #Enter Pageant path here
-$pageantKeysDirPath = #Enter Pageant keys directory path here
+$projectsDirPath 	= "C:\Users\Jakub\Documents\Visual Studio 2010\Projects"
+$puttyDirPath	 	= "C:\Program Files (x86)\PuTTY"
+$pageantKeysDirPath = "C:\Users\Jakub\.ssh"

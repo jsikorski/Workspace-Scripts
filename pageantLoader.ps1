@@ -1,4 +1,6 @@
 function Start-Pageant {
+	$pageantPath = $puttyDirPath + "\pageant.exe"
+
 	if (!(Test-Path $pageantPath)) {
 		Write-Warning "Pageant is not installed or Pageant path is incorrect."
 		return

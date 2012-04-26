@@ -1,3 +1,4 @@
+. .\configuration.ps1
 . .\scriptsUtils.ps1
 
 $script:powerShellDir     	  = Split-Path $PROFILE
@@ -128,6 +129,15 @@ Start-Pageant
 	Write-Host "Poweshell module configured."
 }
 
+function script:Set-GitSSHVariable() {
+	Write-Host "Setting GIT_SSH environment variable..."
+	
+	$plinkPath = "$puttyDirPath\plink.exe"
+	[Environment]::SetEnvironmentVariable("GIT_SSH", $plinkPath, "User")
+	
+	Write-Host "GIT_SSH variable set to $plinkPath."
+}
+
 function script:Stop-Installation() {
 	Write-Host "Installation ended."
 	Write-Host
@@ -143,4 +153,5 @@ Invoke-InstallationStep("Invoke-PoshGitInstallation")
 Invoke-InstallationStep("Copy-Files")
 Invoke-InstallationStep("Create-PowerShellProfile")
 Invoke-InstallationStep("Set-Configuration")
+Invoke-InstallationStep("Set-GitSSHVariable")
 Invoke-InstallationStep("Stop-Installation")
