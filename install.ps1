@@ -129,6 +129,15 @@ Start-Pageant
 	Write-Host "Poweshell module configured."
 }
 
+function script:Set-GitUserSettings() {
+	Write-Host "Setting Git user settings..."
+	
+	git config --global user.name $gitUserName
+	git config --global user.email $gitUserEmail
+	
+	Write-Host "Git user settings set (user.name = $gitUserName, user.email = $gitUserEmail)."
+}
+
 function script:Set-GitSSHVariable() {
 	Write-Host "Setting GIT_SSH environment variable..."
 	
@@ -153,5 +162,6 @@ Invoke-InstallationStep("Invoke-PoshGitInstallation")
 Invoke-InstallationStep("Copy-Files")
 Invoke-InstallationStep("Create-PowerShellProfile")
 Invoke-InstallationStep("Set-Configuration")
+Invoke-InstallationStep("Set-GitUserSettings")
 Invoke-InstallationStep("Set-GitSSHVariable")
 Invoke-InstallationStep("Stop-Installation")

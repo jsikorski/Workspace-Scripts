@@ -1,3 +1,5 @@
-$projectsDirPath 	= "C:\Users\Jakub\Documents\Visual Studio 2010\Projects"
-$puttyDirPath	 	= "C:\Program Files (x86)\PuTTY"
-$pageantKeysDirPath = "C:\Users\Jakub\.ssh"
+$projectsDirPath 	= "Please enter projects dir path here."
+$puttyDirPath	 	= "Please enter Putty dir path here."
+$pageantKeysDirPath = "Please enter Pageant keys dir path here."
+$gitUserName		= "Please enter username for Git."
+$gitUserEmail 		= "Please enter user email for Git."

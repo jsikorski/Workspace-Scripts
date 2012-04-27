@@ -89,8 +89,10 @@ function Submit-Feature {
 	Write-Host
 	
 	Write-Info "Merging master and feature branches..."
+	$currentBranch = Get-CurrentBranch
 	git checkout master
 	git merge $currentBranch
+	Invoke-ErrorCheck "Cannot merge master with branch $currentBranch."
 	
 	Write-Info "Pushing changes to origin..."
 	git push origin master
