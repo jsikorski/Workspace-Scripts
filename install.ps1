@@ -1,4 +1,3 @@
-. .\configuration.ps1
 . .\scriptsUtils.ps1
 
 $script:powerShellDir     	  = Split-Path $PROFILE
@@ -110,7 +109,7 @@ function script:Create-PowerShellProfile() {
 	}
 }
 
-function script:Set-Configuration() {
+function script:Set-ModuleConfiguration() {
 	Write-Host "Configuring PowerShell module..."
 		
 	$loadLine = "Import-Module '$installDir\workspace.psm1'"
@@ -132,11 +131,19 @@ Start-Pageant
 	Write-Host "Poweshell module configured."
 }
 
+function script:Load-NeededConfigurationVariables() {
+	. $configurationFilePath
+	
+	$script:gitUserName = $gitUserName
+	$script:gitUserEmail = $gitUserEmail
+	$script:puttyDirPath = $puttyDirPath
+}
+
 function script:Set-GitUserSettings() {
 	Write-Host "Setting Git user settings..."
 	
-	git config --global user.name $gitUserName
-	git config --global user.email $gitUserEmail
+	git config --global user.name $script:gitUserName
+	git config --global user.email $script:gitUserEmail
 	
 	Write-Host "Git user settings set (user.name = $gitUserName, user.email = $gitUserEmail)."
 }
@@ -144,7 +151,7 @@ function script:Set-GitUserSettings() {
 function script:Set-GitSSHVariable() {
 	Write-Host "Setting GIT_SSH environment variable..."
 	
-	$plinkPath = "$puttyDirPath\plink.exe"
+	$plinkPath = "$script:puttyDirPath\plink.exe"
 	[Environment]::SetEnvironmentVariable("GIT_SSH", $plinkPath, "User")
 	
 	Write-Host "GIT_SSH variable set to $plinkPath."
@@ -164,7 +171,8 @@ Invoke-InstallationStep("Get-PoshGit")
 Invoke-InstallationStep("Invoke-PoshGitInstallation")
 Invoke-InstallationStep("Copy-Files")
 Invoke-InstallationStep("Create-PowerShellProfile")
-Invoke-InstallationStep("Set-Configuration")
+Invoke-InstallationStep("Set-ModuleConfiguration")
+Invoke-InstallationStep("Load-NeededConfigurationVariables")
 Invoke-InstallationStep("Set-GitUserSettings")
 Invoke-InstallationStep("Set-GitSSHVariable")
 Invoke-InstallationStep("Stop-Installation")
