@@ -86,8 +86,11 @@ function script:Copy-Files() {
 		Copy-Item * $installDir
 	}
 	else {
-		Copy-Item * $installDir -Exclude $configurationFilePath
 		Write-Warning "Old configuration file was detected. It wont be removed..."
+		
+		$oldConfigurationContent = Get-Content -Path $configurationFilePath
+		Copy-Item * $installDir
+		Set-Content -Path $configurationFilePath -Value $oldConfigurationContent
 	}
 	Invoke-ErrorCheck "Cannot copy files."
 	
