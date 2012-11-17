@@ -87,17 +87,26 @@ function Submit-Feature {
 	}
 	
 	Write-Host
+	$featureBranch = Get-CurrentBranch
 	
-	Write-Info "Merging master and feature branches..."
-	$currentBranch = Get-CurrentBranch
+	Write-Info "Creating integration branch..."
+	$integrationBranch = "integration/$featureBranch"
+	git show-ref --verify --quiet "refs/heads/$integrationBranch"
+	if ($?) {
+		git branch -D $integrationBranch
+	}
 	git checkout master
-	git merge --squash $currentBranch
-	Invoke-ErrorCheck "Cannot merge master with branch $currentBranch."
+	git branch $integrationBranch	
 	
+	Write-Info "Merge changes for integration..."
+	git checkout $integrationBranch	
+	git merge --squash $featureBranch
+	Invoke-ErrorCheck "Cannot merge changes with integration branch."
+
 	git commit -a --message="" --edit
 	
 	Write-Info "Pushing changes to origin..."
-	git push origin master
+	git push origin "$integrationBranch:$featureBranch"
 	Invoke-ErrorCheck "Cannot push changes to origin."
 	
 	Write-Info "Feature submited."
