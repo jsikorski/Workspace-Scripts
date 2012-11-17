@@ -106,7 +106,7 @@ function Submit-Feature {
 	git commit -a --message="" --edit
 	
 	Write-Info "Pushing changes to origin..."
-	git push origin "$integrationBranch:$featureBranch"
+	git push -f origin "${integrationBranch}:$featureBranch"
 	Invoke-ErrorCheck "Cannot push changes to origin."
 	
 	Write-Info "Feature submited."
