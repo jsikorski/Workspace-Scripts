@@ -25,6 +25,11 @@ function script:Get-CurrentBranch {
 	}
 }
 
+function script:Test-LocalBranch($branchName) {
+	git show-ref --verify --quiet "refs/heads/$branchName"
+	return $?
+}
+
 ##### Public #####
 function Start-Feature {
 	param(
@@ -34,12 +39,14 @@ function Start-Feature {
 		$FeatureName
 	)
 	
+	$featureBranch = "feature/$FeatureName"
+
 	Write-Info "Creating branch for feature $FeatureName..."	
-	git branch $FeatureName
+	git branch $featureBranch
 	Invoke-ErrorCheck "Cannot create branch."
 	
 	Write-Info "Switching to feature branch..."
-	git checkout $FeatureName
+	git checkout $featureBranch
 	
 	Write-Info "Feature $FeatureName started."
 }
@@ -90,25 +97,44 @@ function Submit-Feature {
 	$featureBranch = Get-CurrentBranch
 	
 	Write-Info "Creating integration branch..."
-	$integrationBranch = "integration/$featureBranch"
-	git show-ref --verify --quiet "refs/heads/$integrationBranch"
-	if ($?) {
+	$featureName = $featureBranch.Split("/")[1]
+	$integrationBranch = "integration/$featureName"
+	if ((Test-LocalBranch $integrationBranch)) {
+		$gitLogLine = git log -1 --oneline $integrationBranch
+		$firstSpaceIndex = $gitLogLine.IndexOf(" ")
+		$previousCommitMessage = $gitLogLine.Substring($firstSpaceIndex + 1)
 		git branch -D $integrationBranch
 	}
 	git checkout master
-	git branch $integrationBranch	
+	git branch $integrationBranch
 	
 	Write-Info "Merge changes for integration..."
 	git checkout $integrationBranch	
 	git merge --squash $featureBranch
 	Invoke-ErrorCheck "Cannot merge changes with integration branch."
 
-	git commit -a --message="" --edit
+	if ($previousCommitMessage) {
+		$message = $previousCommitMessage
+	}
+	else {
+		$message = ""
+	}
 	
+	git add .
+	git commit -a --message=$message --edit
+
+	if (!$?) {
+		git checkout $featureBranch
+		Write-Info "Submitting feature aborted."
+		return
+	}
+
 	Write-Info "Pushing changes to origin..."
 	git push -f origin "${integrationBranch}:$featureBranch"
 	Invoke-ErrorCheck "Cannot push changes to origin."
 	
+	git checkout $featureBranch
+
 	Write-Info "Feature submited."
 }
 
