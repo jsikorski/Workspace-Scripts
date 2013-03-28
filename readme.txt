@@ -5,3 +5,6 @@ Installation:
    (Get-ExecutionPolicy PowerShell command).
 4. Set correct settings in configuration.ps1 file.
 5. Run install.ps1.
+
+info:
+posh-git (https://github.com/dahlbyk/posh-git) is being installed during installation.
